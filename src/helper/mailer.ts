@@ -36,7 +36,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
             to: email,
             subject: emailType === "verify" ? verifySubject : forgotSubject,
             // text: "Hello world?", // plain‑text body
-            html: `<p>click <a href="${process.env.Domain}/verifyemail?token=${hasedToken}">here</a></p>`, // HTML body
+            html: `<p>click <a href="${process.env.Domain}/verifyemail?token=${hasedToken}">here or go to link : "${process.env.Domain}/verifyemail?token=${hasedToken}" </a></p>`, // HTML body
         }
 
         const mailresponse = await transporter.sendMail(mailOptions);
