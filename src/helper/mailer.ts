@@ -12,13 +12,15 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
 
         if (emailType === "verify") {
             await User.findByIdAndUpdate(userId, {
+                $set: {
                 verifyToken: hasedToken,
-                verifyTokenExpiry: Date.now() + 10 * 60 * 1000, // 10 minutes
+                verifyTokenExpiry: Date.now() + 20 * 60 * 1000, // 10 minutes
+                }
             })
         } else if (emailType === "forgot") {
             await User.findByIdAndUpdate(userId, {
                 forgotPasswrodToken: hasedToken,
-                forgotPasswrodTokenExpiry: Date.now() + 10 * 60 * 1000, // 10 minutes
+                forgotPasswrodTokenExpiry: Date.now() + 20 * 60 * 1000, // 10 minutes
             })
         }
 
@@ -36,7 +38,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
             to: email,
             subject: emailType === "verify" ? verifySubject : forgotSubject,
             // text: "Hello world?", // plain‑text body
-            html: `<p>click <a href="${process.env.Domain}/verifyemail?token=${hasedToken}">here or go to link : "${process.env.Domain}/verifyemail?token=${hasedToken}" </a></p>`, // HTML body
+            html: `<p>click <a href="${process.env.Domain}/verifyemail?token=${hasedToken}&email=${email}">here </a>or go to link : "${process.env.Domain}/verifyemail?token=${hasedToken}&email=${email}"</p>`, // HTML body
         }
 
         const mailresponse = await transporter.sendMail(mailOptions);

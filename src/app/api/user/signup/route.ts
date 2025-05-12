@@ -13,14 +13,22 @@ export async function POST(request: NextRequest) {
         // validation left
 
         if (!userName || !email || !password) {
+            console.log("Request body:", body);
             return NextResponse.json({ message: "Please provide all fields" }, { status: 400 });
         }
-        console.log("Request body:", body);
 
         // Check if user already exists
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select("-password -__v");
         if (user) {
+            console.log("User already exists:", user);
             return NextResponse.json({ message: "User already exists" }, { status: 400 });
+        }
+
+        // check username already Taken
+        const userNameExists = await User.findOne({ userName });
+        if (userNameExists) {
+            console.log("Username already Taken:", userNameExists);
+            return NextResponse.json({ message: "Username already Taken" }, { status: 400 });
         }
 
         // Create a new user
