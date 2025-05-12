@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios"
-import toast from "react-hot-toast"
+import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
@@ -69,6 +69,7 @@ const page = () => {
 
     return (
         <div className="flex flex-col justify-center items-center h-screen">
+            <div><Toaster/></div>
             <div style={{ maxWidth: 400, margin: '0 auto' }}>
                 <h2>{loading && "Processing"}</h2>
                 <h2>Sign Up</h2>
